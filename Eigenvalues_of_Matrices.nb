@@ -1,0 +1,592 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     24799,        584]
+NotebookOptionsPosition[     22235,        535]
+NotebookOutlinePosition[     22635,        551]
+CellTagsIndexPosition[     22592,        548]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Matrix Eigenvalues", "Title",
+ CellChangeTimes->{{3.9270173628608418`*^9, 
+  3.9270173650182343`*^9}},ExpressionUUID->"d19a503b-0191-1b42-b2e6-\
+86b09127906c"],
+
+Cell["\<\
+Authors: Aditya Jambhale and Chris Yao
+This notebook generates random matrices sampled from various matrix groups \
+and finds their smallest (in terms of the argument) eigenvalues and the value \
+of their characteristic polynomial evaluated at 1.\
+\>", "Text",
+ CellChangeTimes->{{3.927017384477461*^9, 3.927017392999277*^9}, {
+  3.927017478165783*^9, 3.927017489667742*^9}, {3.927017584808014*^9, 
+  3.9270175873643646`*^9}, {3.927018024221264*^9, 3.92701802718079*^9}, {
+  3.92701808189682*^9, 
+  3.927018132153061*^9}},ExpressionUUID->"8c1ee6c6-ba56-df4e-8e85-\
+fd8125929202"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", "\n", 
+   RowBox[{
+   "Functions", " ", "to", " ", "find", " ", "smallest", " ", "eigenvalues", 
+    " ", "and", " ", "value", " ", "of", " ", "characteristic", " ", 
+    "polynomials", " ", "at", " ", "1.", "\n", "\n", 
+    RowBox[{"Input", ":", " ", 
+     RowBox[{
+     "A", " ", "list", " ", "of", " ", "eigenvalues", "\n", "Outputs"}], ":", 
+     " ", "\n", "\t", "float", ":", " ", 
+     RowBox[{"the", " ", 
+      RowBox[{"(", 
+       RowBox[{"absolute", " ", "value"}], ")"}], " ", "of", " ", "the", " ", 
+      "angle", " ", "of", " ", "the", " ", "lowest", " ", "eigenvalue", " ", 
+      "\n", "\t", "float"}], ":", " ", 
+     RowBox[{
+     "the", " ", "value", " ", "of", " ", "the", " ", "characteristic", " ", 
+      "function", " ", "of", " ", "the", " ", "polynomial", " ", "evaluated", 
+      " ", "at", " ", "1."}]}]}], "\n", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"buildMatrixTuple", "[", "input_", "]"}], ":=", " ", 
+     RowBox[{"List", "[", 
+      RowBox[{
+       RowBox[{"Min", "[", 
+        RowBox[{"Abs", "[", 
+         RowBox[{"Map", "[", 
+          RowBox[{"Arg", ",", "input"}], "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"Norm", "[", 
+        RowBox[{"Product", "[", 
+         RowBox[{
+          RowBox[{"i", "-", "1"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", " ", "input"}], "}"}]}], "]"}], "]"}]}], "]"}]}],
+     ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"buildBetterTuple", "[", "input_", "]"}], ":=", " ", 
+     RowBox[{"List", "[", 
+      RowBox[{
+       RowBox[{"Min", "[", 
+        RowBox[{"Abs", "[", 
+         RowBox[{"Map", "[", 
+          RowBox[{"Arg", ",", "input"}], "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"Round", "[", 
+        RowBox[{
+         RowBox[{"Norm", "[", 
+          RowBox[{"Product", "[", 
+           RowBox[{
+            RowBox[{"i", "-", "1"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", " ", "input"}], "}"}]}], "]"}], "]"}], ",", 
+         " ", ".000000000001"}], "]"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"buildBetterOddTuple", "[", "input_", "]"}], ":=", " ", 
+     RowBox[{"List", "[", 
+      RowBox[{
+       RowBox[{"RankedMin", "[", 
+        RowBox[{
+         RowBox[{"Abs", "[", 
+          RowBox[{"Map", "[", 
+           RowBox[{"Arg", ",", "input"}], "]"}], "]"}], ",", "2"}], "]"}], 
+       ",", " ", 
+       RowBox[{"Round", "[", 
+        RowBox[{
+         RowBox[{"Norm", "[", 
+          RowBox[{"Product", "[", 
+           RowBox[{
+            RowBox[{"i", "-", "1"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", " ", "input"}], "}"}]}], "]"}], "]"}], ",", 
+         " ", ".000000000001"}], "]"}]}], "]"}]}], ";"}]}]}]], "Code",
+ CellChangeTimes->{{3.8994900629928017`*^9, 3.8994901479159822`*^9}, {
+   3.899490343643414*^9, 3.899490435139132*^9}, {3.8994904716509132`*^9, 
+   3.899490478658585*^9}, {3.899490519764841*^9, 3.8994906353487043`*^9}, {
+   3.8994908381773853`*^9, 3.899490838979829*^9}, {3.899490969065605*^9, 
+   3.899490975920972*^9}, 3.899491006642254*^9, {3.8994938884506187`*^9, 
+   3.899493891009109*^9}, {3.899494090947596*^9, 3.89949409166685*^9}, {
+   3.899494125623697*^9, 3.8994941298025923`*^9}, {3.899494267170656*^9, 
+   3.899494267467284*^9}, {3.900494140190645*^9, 3.900494140489477*^9}, {
+   3.900494185527556*^9, 3.900494188784586*^9}, {3.900494224567236*^9, 
+   3.900494259622126*^9}, {3.900494421531671*^9, 3.9004944764317408`*^9}, {
+   3.900494829611964*^9, 3.900494858119849*^9}, {3.910109754240497*^9, 
+   3.910109755162898*^9}, {3.9270173462873936`*^9, 3.9270173485781155`*^9}, {
+   3.9270174968179817`*^9, 3.9270175075840263`*^9}, {3.927017597486809*^9, 
+   3.9270175988203354`*^9}, {3.92701814886895*^9, 3.927018271255806*^9}, 
+   3.927018669984663*^9, {3.9270188076554832`*^9, 
+   3.9270188078339577`*^9}},ExpressionUUID->"906f2fbe-a6ce-45b1-9a50-\
+6cabae7b557b"],
+
+Cell[CellGroupData[{
+
+Cell["Unitary Matrices", "Section",
+ CellChangeTimes->{{3.9270182872574215`*^9, 
+  3.9270182919783306`*^9}},ExpressionUUID->"02cab94a-89d8-e74c-bf26-\
+3426a8de2da5"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"i", " ", "=", " ", "0"}], ",", " ", 
+   RowBox[{"i", "<", "10"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"unitaryData", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"buildMatrixTuple", "[", 
+        RowBox[{"Eigenvalues", "[", 
+         RowBox[{"RandomVariate", "[", 
+          RowBox[{"CircularUnitaryMatrixDistribution", "[", "20", "]"}], 
+          "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", " ", "100000"}], "}"}]}], "]"}]}], ";", 
+    "\n", 
+    RowBox[{"Export", "[", 
+     RowBox[{"\"\<Random_U20_Data.csv\>\"", ",", " ", "unitaryData", ",", " ", 
+      RowBox[{"OverwriteTarget", " ", "->", " ", "\"\<KeepBoth\>\""}]}], 
+     "]"}]}]}], "]"}]], "Code",
+ CellChangeTimes->{{3.899479558648897*^9, 3.89947960446426*^9}, {
+   3.899479657983117*^9, 3.8994796583889103`*^9}, {3.8994797010267887`*^9, 
+   3.899479810920675*^9}, {3.89947997946873*^9, 3.899479987081172*^9}, {
+   3.899490011143266*^9, 3.899490016225325*^9}, {3.89949064635474*^9, 
+   3.8994907091947327`*^9}, {3.899490775184339*^9, 3.8994907764009857`*^9}, {
+   3.89949097986916*^9, 3.899491021110656*^9}, {3.899491173627535*^9, 
+   3.899491187214669*^9}, {3.899491341439287*^9, 3.899491346045295*^9}, {
+   3.89949140367956*^9, 3.899491453191345*^9}, {3.899492885354654*^9, 
+   3.899492892898668*^9}, {3.8994935606986322`*^9, 3.8994935789800243`*^9}, 
+   3.899494501617045*^9, {3.899720049647951*^9, 3.899720058877972*^9}, {
+   3.899759922466971*^9, 3.899759925170263*^9}, {3.89975998693369*^9, 
+   3.899760024238652*^9}, {3.8997602528482447`*^9, 3.899760286574397*^9}, {
+   3.89976058271797*^9, 3.899760681232315*^9}, {3.899760714679388*^9, 
+   3.899760722567333*^9}, 3.89976076497795*^9, {3.899761036623178*^9, 
+   3.899761182727131*^9}, {3.899761401645275*^9, 3.899761407323394*^9}, {
+   3.9100904462715673`*^9, 3.9100904499547224`*^9}, {3.910090731033913*^9, 
+   3.910090731174128*^9}, {3.910090882683316*^9, 3.91009088305822*^9}, 
+   3.9100909438334637`*^9, {3.910090982062972*^9, 3.910090982226989*^9}, 
+   3.910091016480505*^9, {3.9270183169516487`*^9, 
+   3.927018322626583*^9}},ExpressionUUID->"299c8d45-6f00-457c-9fcc-\
+d01d9ab4500a"],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{3.9270179843553905`*^9},
+ CellLabel->"Out[3]=",ExpressionUUID->"af751914-f870-f644-a4e0-c01b56962e90"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"i", " ", "=", " ", "0"}], ",", " ", 
+   RowBox[{"i", "<", "10"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"unitaryData", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"buildMatrixTuple", "[", 
+        RowBox[{"Eigenvalues", "[", 
+         RowBox[{"RandomVariate", "[", 
+          RowBox[{"CircularUnitaryMatrixDistribution", "[", "16", "]"}], 
+          "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", " ", "100000"}], "}"}]}], "]"}]}], ";", 
+    "\n", 
+    RowBox[{"Export", "[", 
+     RowBox[{"\"\<Random_U16_Data.csv\>\"", ",", " ", "unitaryData", ",", " ", 
+      RowBox[{"OverwriteTarget", " ", "->", " ", "\"\<KeepBoth\>\""}]}], 
+     "]"}]}]}], "]"}]], "Code",
+ CellChangeTimes->{{3.9102147254487033`*^9, 3.9102147306628094`*^9}, {
+  3.913906300449457*^9, 3.9139063050666447`*^9}, {3.9270183304542446`*^9, 
+  3.9270183361190243`*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"0feae250-bfd7-429c-b37e-f252a8cdf7a4"],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{3.9270184222432117`*^9},
+ CellLabel->"Out[4]=",ExpressionUUID->"303b96f7-4cf5-6145-9b8a-d53b7a5f2174"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["USp Matrices", "Section",
+ CellChangeTimes->{
+  3.899760730380897*^9, 3.9270183566047287`*^9, {3.9270185667190742`*^9, 
+   3.927018579085308*^9}},ExpressionUUID->"b6b84b2e-1bd2-44ee-963d-\
+5690d8526046"],
+
+Cell[BoxData[
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"i", " ", "=", " ", "0"}], ",", " ", 
+   RowBox[{"i", "<", "10"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"uSpData", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"buildMatrixTuple", "[", 
+        RowBox[{"Eigenvalues", "[", 
+         RowBox[{"RandomVariate", "[", 
+          RowBox[{"CircularQuaternionMatrixDistribution", "[", "9", "]"}], 
+          "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", " ", "100000"}], "}"}]}], "]"}]}], ";", 
+    "\n", 
+    RowBox[{"Export", "[", 
+     RowBox[{"\"\<Random_USp18_Data.csv\>\"", ",", " ", "uSpData", ",", " ", 
+      RowBox[{"OverwriteTarget", " ", "->", " ", "\"\<KeepBoth\>\""}]}], 
+     "]"}]}]}], "]"}]], "Code",
+ CellChangeTimes->{{3.899491128818829*^9, 3.899491159666845*^9}, {
+   3.899491199708725*^9, 3.899491219306336*^9}, 3.899491297014647*^9, {
+   3.8994913320770884`*^9, 3.899491350308505*^9}, 3.8994914580836267`*^9, {
+   3.899544870302186*^9, 3.899544873959863*^9}, {3.899720052923169*^9, 
+   3.8997200573357697`*^9}, {3.899720140615519*^9, 3.899720140739428*^9}, {
+   3.89972019352945*^9, 3.899720193585221*^9}, {3.899720271364485*^9, 
+   3.899720271444909*^9}, {3.899720313992265*^9, 3.899720314163984*^9}, {
+   3.8997203529058447`*^9, 3.899720353223387*^9}, {3.899720500276778*^9, 
+   3.899720500614974*^9}, {3.899720557320876*^9, 3.899720557609843*^9}, {
+   3.899720594870709*^9, 3.899720595536675*^9}, {3.899720628191429*^9, 
+   3.899720629383239*^9}, {3.910091538765935*^9, 3.9100916227303686`*^9}, {
+   3.9270187393135586`*^9, 
+   3.9270187473186455`*^9}},ExpressionUUID->"932211b2-4e39-4144-833c-\
+4091f84bfcd3"],
+
+Cell[BoxData[
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"i", " ", "=", " ", "0"}], ",", " ", 
+   RowBox[{"i", "<", "10"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"uSpData", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"buildMatrixTuple", "[", 
+        RowBox[{"Eigenvalues", "[", 
+         RowBox[{"RandomVariate", "[", 
+          RowBox[{"CircularQuaternionMatrixDistribution", "[", "10", "]"}], 
+          "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", " ", "100000"}], "}"}]}], "]"}]}], ";", 
+    "\n", 
+    RowBox[{"Export", "[", 
+     RowBox[{"\"\<Random_USp20_Data.csv\>\"", ",", " ", "uSpData", ",", " ", 
+      RowBox[{"OverwriteTarget", " ", "->", " ", "\"\<KeepBoth\>\""}]}], 
+     "]"}]}]}], "]"}]], "Code",
+ CellChangeTimes->{{3.899493535891825*^9, 3.899493582873352*^9}, 
+   3.899494542987908*^9, {3.8995447109581327`*^9, 3.899544716965074*^9}, {
+   3.899721828370604*^9, 3.89972182958873*^9}, {3.899721941866899*^9, 
+   3.89972194197009*^9}, {3.899722042636221*^9, 3.899722043096992*^9}, {
+   3.899722145035179*^9, 3.89972214511837*^9}, {3.899722607333836*^9, 
+   3.899722607468786*^9}, {3.910092576170565*^9, 3.910092583391649*^9}, {
+   3.927018749556988*^9, 
+   3.927018750831789*^9}},ExpressionUUID->"f816092e-fe48-450b-b0e3-\
+aec7f96aea1b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Special Orthogonal Matrices", "Section",
+ CellChangeTimes->{{3.9270185915415936`*^9, 
+  3.92701859463303*^9}},ExpressionUUID->"08241f6c-e84d-fb4c-9470-\
+ef5c68f83022"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", "\n", 
+   RowBox[{
+   "Function", " ", "to", " ", "create", " ", "SO", " ", "matrices", "\n", 
+    "\n", 
+    RowBox[{"Input", ":", "\n", "\t", "matrix", ":", " ", 
+     RowBox[{"an", " ", "orthogonal", " ", "matrix", "\n", "\t", 
+      RowBox[{"output", ":", " ", "\n", "\t\t", 
+       RowBox[{
+       "either", " ", "None", " ", "or", " ", "a", " ", "special", " ", 
+        "orthogonal", " ", "matrix"}]}]}]}]}], "\n", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{"createSOMatrix", "[", "n_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "mtx", "}"}], ",", " ", 
+     RowBox[{"While", "[", 
+      RowBox[{"True", ",", "\n", "\t", 
+       RowBox[{
+        RowBox[{"mtx", " ", "=", " ", 
+         RowBox[{"RandomVariate", "[", 
+          RowBox[{"CircularRealMatrixDistribution", "[", "n", "]"}], "]"}]}], 
+        ";", "\n", "\t", 
+        RowBox[{"If", "[", " ", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Det", "[", "mtx", "]"}], ">", "0.8"}], ",", " ", 
+          RowBox[{"Return", "[", "mtx", "]"}]}], "]"}], ";"}]}], "\n", 
+      "]"}]}], "]"}]}]}]], "Code",
+ CellChangeTimes->{
+  3.8994935442616043`*^9, 3.89949358524431*^9, 3.899494546248274*^9, {
+   3.899722638692285*^9, 3.899722639319722*^9}, {3.8997229087011414`*^9, 
+   3.8997229088136463`*^9}, {3.899722972837332*^9, 3.8997229728611603`*^9}, {
+   3.899723040412415*^9, 3.899723040537867*^9}, {3.89972311178959*^9, 
+   3.899723111907402*^9}, {3.899723217839202*^9, 3.899723217980191*^9}, {
+   3.899723282164695*^9, 3.899723282270403*^9}, {3.899723361402821*^9, 
+   3.899723365479504*^9}, {3.899723458303467*^9, 3.899723458542552*^9}, {
+   3.8997236063241577`*^9, 3.8997236067052393`*^9}, {3.900494093078759*^9, 
+   3.900494093380826*^9}, {3.910093678273401*^9, 3.910093744561244*^9}, {
+   3.910093871636329*^9, 3.91009388723836*^9}, 3.910094141778081*^9, {
+   3.91010917345133*^9, 3.9101091947004633`*^9}, {3.910109338015933*^9, 
+   3.910109425867674*^9}, {3.91010946355824*^9, 3.910109589112026*^9}, 
+   3.910109840260948*^9, {3.9270186484829655`*^9, 
+   3.9270187078595905`*^9}},ExpressionUUID->"011c70dd-501e-4651-9e07-\
+a3a92062ff57"],
+
+Cell[BoxData[
+ RowBox[{"For", " ", "[", 
+  RowBox[{
+   RowBox[{"i", "=", "0"}], ",", " ", 
+   RowBox[{"i", " ", "<", " ", "10"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"soData", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"buildBetterTuple", "[", 
+        RowBox[{"Eigenvalues", "[", 
+         RowBox[{"createSOMatrix", "[", "18", "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", " ", "1", ",", " ", "100000"}], "}"}]}], "]"}]}], 
+    ";", "\n", 
+    RowBox[{"Export", "[", 
+     RowBox[{"\"\<Random_SO18_Data.csv\>\"", ",", " ", "soData", ",", " ", 
+      RowBox[{"OverwriteTarget", " ", "->", " ", "\"\<KeepBoth\>\""}]}], 
+     "]"}]}]}], "]"}]], "Code",
+ CellChangeTimes->{{3.910109605865421*^9, 3.910109650492997*^9}, {
+   3.910109720729104*^9, 3.9101097382578955`*^9}, {3.9101098441852508`*^9, 
+   3.9101098692064695`*^9}, 3.910134420109601*^9, {3.9270187560352325`*^9, 
+   3.9270187642847633`*^9}},ExpressionUUID->"f639ca18-6746-4826-a3c2-\
+7eaf76d14381"],
+
+Cell[BoxData[
+ RowBox[{"For", " ", "[", 
+  RowBox[{
+   RowBox[{"i", "=", "0"}], ",", " ", 
+   RowBox[{"i", " ", "<", " ", "10"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"soData", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"buildBetterTuple", "[", 
+        RowBox[{"Eigenvalues", "[", 
+         RowBox[{"createSOMatrix", "[", "20", "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", " ", "1", ",", " ", "100000"}], "}"}]}], "]"}]}], 
+    ";", "\n", 
+    RowBox[{"Export", "[", 
+     RowBox[{"\"\<Random_SO20_Data.csv\>\"", ",", " ", "soData", ",", " ", 
+      RowBox[{"OverwriteTarget", " ", "->", " ", "\"\<KeepBoth\>\""}]}], 
+     "]"}]}]}], "]"}]], "Code",
+ CellChangeTimes->{{3.900492790630127*^9, 3.9004927910461617`*^9}, {
+   3.900492823908814*^9, 3.9004928914569902`*^9}, {3.900492930405409*^9, 
+   3.900492971138398*^9}, {3.900493040097857*^9, 3.9004930685228662`*^9}, {
+   3.9004931207402067`*^9, 3.90049317248436*^9}, {3.900493207015674*^9, 
+   3.900493261141214*^9}, {3.90049336086246*^9, 3.900493394894216*^9}, {
+   3.900493461149242*^9, 3.9004934787952433`*^9}, {3.900493557283536*^9, 
+   3.900493602740215*^9}, {3.900493639629895*^9, 3.90049372297248*^9}, {
+   3.900493866575398*^9, 3.900493867210517*^9}, {3.9004939114020853`*^9, 
+   3.900493990882454*^9}, 3.90049403794838*^9, {3.900494134270457*^9, 
+   3.9004941347743597`*^9}, {3.900494577407653*^9, 3.9004945941933413`*^9}, {
+   3.900496687738194*^9, 3.9004966912061863`*^9}, {3.900496756955714*^9, 
+   3.9004968004101353`*^9}, {3.910110271105138*^9, 3.91011027655852*^9}, 
+   3.910134417567596*^9, {3.9270187658668404`*^9, 
+   3.927018767308464*^9}},ExpressionUUID->"c961f8ff-2542-4f75-a4a3-\
+2b1f78f62c23"],
+
+Cell[BoxData[
+ RowBox[{"For", " ", "[", 
+  RowBox[{
+   RowBox[{"i", "=", "0"}], ",", " ", 
+   RowBox[{"i", " ", "<", " ", "10"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"soData", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"buildBetterOddTuple", "[", 
+        RowBox[{"Eigenvalues", "[", 
+         RowBox[{"createSOMatrix", "[", "21", "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", " ", "1", ",", " ", "100000"}], "}"}]}], "]"}]}], 
+    ";", "\n", 
+    RowBox[{"Export", "[", 
+     RowBox[{"\"\<Random_SO21_Data.csv\>\"", ",", " ", "soData", ",", " ", 
+      RowBox[{"OverwriteTarget", " ", "->", " ", "\"\<KeepBoth\>\""}]}], 
+     "]"}]}]}], "]"}]], "Code",
+ CellChangeTimes->{{3.9138114527918625`*^9, 3.913811475500777*^9}, {
+  3.9270188222622795`*^9, 
+  3.927018827579771*^9}},ExpressionUUID->"73938f1c-71a0-4fef-801b-\
+4d00aa87c028"],
+
+Cell[BoxData[
+ RowBox[{"For", " ", "[", 
+  RowBox[{
+   RowBox[{"i", "=", "0"}], ",", " ", 
+   RowBox[{"i", " ", "<", " ", "10"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"soData", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"buildBetterOddTuple", "[", 
+        RowBox[{"Eigenvalues", "[", 
+         RowBox[{"createSOMatrix", "[", "17", "]"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", " ", "1", ",", " ", "100000"}], "}"}]}], "]"}]}], 
+    ";", "\n", 
+    RowBox[{"Export", "[", 
+     RowBox[{"\"\<Random_SO17_Data.csv\>\"", ",", " ", "soData", ",", " ", 
+      RowBox[{"OverwriteTarget", " ", "->", " ", "\"\<KeepBoth\>\""}]}], 
+     "]"}]}]}], "]"}]], "Code",
+ CellChangeTimes->{{3.913811732030391*^9, 3.913811738359872*^9}, {
+  3.9270188304027176`*^9, 
+  3.927018832002966*^9}},ExpressionUUID->"b7cf00aa-2bd8-4842-96b1-\
+93b1d6aed1f1"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Unused Old Code", "Section",
+ CellChangeTimes->{{3.9270190614917526`*^9, 
+  3.9270190816382008`*^9}},ExpressionUUID->"5f2f0d92-bffe-6440-bdec-\
+7fe86c371e91"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"buildMatrixTupleTwo", "[", "input_", "]"}], ":=", " ", 
+   RowBox[{"List", "[", 
+    RowBox[{
+     RowBox[{"Round", "[", 
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{"Map", "[", 
+         RowBox[{"Arg", ",", 
+          RowBox[{"Eigenvalues", "[", "input", "]"}]}], "]"}], "]"}], ",", 
+       " ", ".00000001"}], "]"}], ",", " ", 
+     RowBox[{"Round", "[", 
+      RowBox[{
+       RowBox[{"Det", "[", "input", "]"}], ",", " ", ".00000001"}], "]"}]}], 
+    "]"}]}], ";"}]], "Code",
+ CellChangeTimes->{{3.9052722538923693`*^9, 3.905272291603039*^9}, {
+   3.905272474385143*^9, 3.905272508598319*^9}, 3.905272565273116*^9, {
+   3.905272745366764*^9, 3.905272783610829*^9}, {3.905273214661583*^9, 
+   3.9052732247306423`*^9}, {3.905274690717505*^9, 3.905274699798152*^9}, {
+   3.905274757120791*^9, 3.905274775663858*^9}, {3.905274901104932*^9, 
+   3.905274907728471*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"1aaed579-42a3-466b-85db-0758eb77eb0e"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"num", " ", "=", " ", "7"}], ";"}], "\n", 
+ RowBox[{"matrixData", " ", "=", " ", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"buildMatrixTupleTwo", "[", 
+     RowBox[{"RandomVariate", "[", 
+      RowBox[{"CircularRealMatrixDistribution", "[", "num", "]"}], "]"}], 
+     "]"}], ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", " ", "1", ",", " ", "200000"}], "}"}]}], "]"}]}], "\n", 
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<Random O(7) Sample.csv\>\"", ",", " ", "matrixData"}], 
+  "]"}]}], "Code",
+ CellChangeTimes->{{3.905271742136977*^9, 3.905271761298415*^9}, {
+   3.905271967046864*^9, 3.905271967853569*^9}, {3.905272015972476*^9, 
+   3.905272048067457*^9}, {3.905272079078599*^9, 3.905272226895053*^9}, {
+   3.905272534455759*^9, 3.9052725590894747`*^9}, {3.905272684857785*^9, 
+   3.9052726955343437`*^9}, {3.905274384801836*^9, 3.90527448103078*^9}, 
+   3.905274591316505*^9, {3.905437056615777*^9, 3.905437056664865*^9}},
+ CellLabel->"In[32]:=",ExpressionUUID->"95d0f588-4653-4834-90c8-8636fac5251f"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.905274848417862*^9, 3.905274854549102*^9}, 
+   3.910059913751552*^9},ExpressionUUID->"f64fe44f-4def-4c8e-bb28-\
+33b8d187476f"],
+
+Cell[BoxData[""], "Input",ExpressionUUID->"f8ccdf10-871a-4aba-adc5-5d204fd221c5"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{949, 467},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.0 for Microsoft Windows (64-bit) (December 12, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"07503e67-c473-4ede-aee0-858be13a0bb6"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 165, 3, 98, "Title",ExpressionUUID->"d19a503b-0191-1b42-b2e6-86b09127906c"],
+Cell[748, 27, 589, 11, 81, "Text",ExpressionUUID->"8c1ee6c6-ba56-df4e-8e85-fd8125929202"],
+Cell[1340, 40, 3963, 91, 226, "Code",ExpressionUUID->"906f2fbe-a6ce-45b1-9a50-6cabae7b557b"],
+Cell[CellGroupData[{
+Cell[5328, 135, 165, 3, 67, "Section",ExpressionUUID->"02cab94a-89d8-e74c-bf26-3426a8de2da5"],
+Cell[CellGroupData[{
+Cell[5518, 142, 2276, 42, 86, "Code",ExpressionUUID->"299c8d45-6f00-457c-9fcc-d01d9ab4500a"],
+Cell[7797, 186, 157, 2, 32, "Output",ExpressionUUID->"af751914-f870-f644-a4e0-c01b56962e90"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7991, 193, 1078, 25, 86, "Code",ExpressionUUID->"0feae250-bfd7-429c-b37e-f252a8cdf7a4"],
+Cell[9072, 220, 157, 2, 32, "Output",ExpressionUUID->"303b96f7-4cf5-6145-9b8a-d53b7a5f2174"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9278, 228, 209, 4, 67, "Section",ExpressionUUID->"b6b84b2e-1bd2-44ee-963d-5690d8526046"],
+Cell[9490, 234, 1740, 35, 86, "Code",ExpressionUUID->"932211b2-4e39-4144-833c-4091f84bfcd3"],
+Cell[11233, 271, 1363, 30, 86, "Code",ExpressionUUID->"f816092e-fe48-450b-b0e3-aec7f96aea1b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12633, 306, 173, 3, 67, "Section",ExpressionUUID->"08241f6c-e84d-fb4c-9470-ef5c68f83022"],
+Cell[12809, 311, 2176, 45, 244, "Code",ExpressionUUID->"011c70dd-501e-4651-9e07-a3a92062ff57"],
+Cell[14988, 358, 1054, 24, 86, "Code",ExpressionUUID->"f639ca18-6746-4826-a3c2-7eaf76d14381"],
+Cell[16045, 384, 1767, 34, 86, "Code",ExpressionUUID->"c961f8ff-2542-4f75-a4a3-2b1f78f62c23"],
+Cell[17815, 420, 931, 23, 86, "Code",ExpressionUUID->"73938f1c-71a0-4fef-801b-4d00aa87c028"],
+Cell[18749, 445, 929, 23, 86, "Code",ExpressionUUID->"b7cf00aa-2bd8-4842-96b1-93b1d6aed1f1"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19715, 473, 164, 3, 67, "Section",ExpressionUUID->"5f2f0d92-bffe-6440-bdec-7fe86c371e91"],
+Cell[19882, 478, 1007, 23, 50, "Code",ExpressionUUID->"1aaed579-42a3-466b-85db-0758eb77eb0e"],
+Cell[20892, 503, 1053, 21, 86, "Code",ExpressionUUID->"95d0f588-4653-4834-90c8-8636fac5251f"],
+Cell[21948, 526, 175, 3, 28, "Input",ExpressionUUID->"f64fe44f-4def-4c8e-bb28-33b8d187476f"],
+Cell[22126, 531, 81, 0, 28, "Input",ExpressionUUID->"f8ccdf10-871a-4aba-adc5-5d204fd221c5"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
