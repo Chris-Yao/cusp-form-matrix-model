@@ -24,7 +24,6 @@ fd_file = "1-20000_fd"
 with open(f"{fd_data_path}/{fd_file}.txt", "r") as f:
     funddiscs = f.readlines()
 
-initialh = 1
 num_roots = 3
 
 def compute_zeros(mf_data: list, mf_name: str) -> bool:
@@ -50,19 +49,20 @@ def compute_zeros(mf_data: list, mf_name: str) -> bool:
     l = pari.lfunmf(mf,b) #produces lfunction as vector attached to modular form
 
     for d in funddiscs:
+        height = 0
         step = 0.5
         disc = int(d, base=10)
         if disc % N != 0 and disc > 1:
             twist = pari.lfuntwist(l,disc) #twist l by dirichlet character disc
-            roots = pari.lfunzeros(twist,initialh)  #zeros of twisted lfunction up to initialh
-            while len(roots) < num_roots:
-                roots = pari.lfunzeros(twist,initialh + step)
-                step += 0.5
+            all_roots = list(pari.lfunzeros(twist, [height, height + step]))  #zeros of twisted lfunction in an interval
+            while len(all_roots) < num_roots:
+                height += step
+                all_roots.extend(pari.lfunzeros(twist, [height, height + step]))
         
             with open(f'{mf_data_path}/lowly_zeros_{mf_name}.txt','a') as f:
                 f.write(str(disc))
                 f.write(",")
-                f.write(",".join([str(i) for i in roots]))
+                f.write(",".join([str(i) for i in all_roots]))
                 f.write("\n")  
 
     return True
