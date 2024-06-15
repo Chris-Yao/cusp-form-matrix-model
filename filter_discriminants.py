@@ -4,7 +4,7 @@
 """
 Authors: Zoe Batterman, Aditya Jambhale, and Chris Yao
 
-Modified from code from SMALL 2023 Probability and Number Theory group
+Modified from code from SMALL 2022 Probability and Number Theory group
 
 Filters lowest lying zeros data by depending on (even or odd) sign.
 

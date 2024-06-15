@@ -27,3 +27,5 @@ def plot_even():
 
 def plot_odd():
     plot_data(f"fz_{mf_name}_sign-1", mat_type, graph_limits=[-0.05, 4], save=True, odd=True)
+    # We want the second zero, but since the lowly_zero data, from a previous version
+    # of code already removed them, we take the first lowest zero

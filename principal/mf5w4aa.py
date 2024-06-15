@@ -26,4 +26,5 @@ def plot_even():
     plot_data(f"fz_{mf_name}_sign+1", mat_type, graph_limits=[-0.05, 4], save=True)
 
 def plot_odd():
-    plot_data(f"fz_{mf_name}_sign-1", mat_type, graph_limits=[-0.05, 4], save=True, odd=True)
+    plot_data(f"fz_{mf_name}_sign-1", mat_type, graph_limits=[-0.05, 4], save=True, 
+              which_zero=2, odd=True)

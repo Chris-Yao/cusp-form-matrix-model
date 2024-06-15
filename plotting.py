@@ -35,7 +35,8 @@ def get_level(mf_name: str) -> int:
     return int(expr.group(1))
 
 def plot_data(mf_data: str, mat_type: str, non_vanishing: bool=True, normalize: bool=True, 
-              cutoff: float=0, odd: bool=False, graph_limits: list=[], save: bool=False) -> bool:
+              cutoff: float=0, odd: bool=False, graph_limits: list=[], which_zero: int=1,
+              save: bool=False) -> bool:
     """
     Plots modular form and eigenvalue data 
 
@@ -55,6 +56,7 @@ def plot_data(mf_data: str, mat_type: str, non_vanishing: bool=True, normalize: 
             polynomial evaluated at 1. If 0, do not cutoff.
         odd (bool): If True, force the matrix size to be odd (this is normally for SO case).
         graph_limits (list): The x limits on the graph; if empty, no limits.
+        which_zero (int): Which zero to plot; e.g., if 1, the lowest zero, if 2, the second lowest.
         save (bool); If True, save the figure.
     
     Outputs:
@@ -64,7 +66,7 @@ def plot_data(mf_data: str, mat_type: str, non_vanishing: bool=True, normalize: 
     with open(f'{mf_path}/{mf_data}.txt','r') as f:
         read = f.readlines()
         X = int(read[-1].split(",")[0])
-        zeros = [float(i.split(',')[1]) for i in read]
+        zeros = [float(i.split(',')[which_zero]) for i in read]
 
         if non_vanishing:
             zeros = [x for x in zeros if x!= 0]
