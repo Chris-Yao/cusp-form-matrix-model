@@ -28,5 +28,12 @@ def plot_even():
 def plot_odd():
     plot_data(f"fz_{mf_name}_sign-1", mat_type, graph_limits=[-0.05, 4], save=True, cutoff=1/16)
 
+def plot_all_U():
+    plot_data(f"lowly_zeros_{mf_name}", mat_type, graph_limits=[-0.05, 4], save=True, cutoff=1/16)
+
+def plot_all_SO():
+    plot_data(f"lowly_zeros_{mf_name}", mat_type="SO", graph_limits=[-0.05, 4], save=True, cutoff=1/64)
+
+
 
 

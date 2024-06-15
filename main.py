@@ -1,5 +1,6 @@
 import generic.mf11w7bb
 import generic.mf13w2ea
+import generic.mf17w2da
 import generic.mf7w4ca
 import principal.mf11w2aa
 import principal.mf13w4aa
@@ -20,7 +21,8 @@ if __name__ == "__main__":
     # self_CM.mf7w3ba.find_zeroes()
     # generic.mf11w7bb.find_zeroes()
     # generic.mf13w2ea.find_zeroes()
-    generic.mf7w4ca.find_zeroes()
+    # generic.mf7w4ca.find_zeroes()
+    # generic.mf17w2da.find_zeroes()
     
     # principal.mf11w2aa.filter_even()
     # principal.mf11w2aa.filter_odd()
@@ -52,7 +54,11 @@ if __name__ == "__main__":
     # self_CM.mf7w3ba.plot_odd()
     # generic.mf13w2ea.plot_even()
     # generic.mf13w2ea.plot_odd()
+    generic.mf13w2ea.plot_all_U()
+    generic.mf13w2ea.plot_all_SO()
     # generic.mf11w7bb.plot()
+    # generic.mf7w4ca.plot()
+    # generic.mf17w2da.plot()
 
     
 

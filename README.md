@@ -1,7 +1,7 @@
 # cusp-form-matrix-model
-Code for the paper "A Random Matrix Model for a Family of Cusp Forms" by Owen Barrett, Zoe X. Batterman, Aditya Jambhale, Steven J. Miller, Akash L. Narayanan, Kishan Sharma, and Chris Yao started during the Probability and Number Theory group of the SMALL 2023 REU run by Steven J. Miller. Computes eigenvalues of random matrix groups and low lying zeroes of L-functions of modular forms twisted by quadratic characters and plots the data.
+Code for the paper "A Random Matrix Model for a Family of Cusp Forms" by Owen Barrett, Zoë X. Batterman, Aditya Jambhale, Steven J. Miller, Akash L. Narayanan, Kishan Sharma, and Chris Yao started during the Probability and Number Theory group of the SMALL 2023 REU run by Steven J. Miller. Computes eigenvalues of random matrix groups and low lying zeroes of L-functions of modular forms twisted by quadratic characters and plots the data.
 
-Authors: Zoe Batterman, Aditya Jambhale, and Chris Yao.
+Authors: Zoë Batterman, Aditya Jambhale, and Chris Yao.
 
 Some code was adapted from the SMALL 2022 Probability and Number Theory group.
 
