@@ -23,9 +23,11 @@ Code for each modular form L-function is separated by nebentype (principal, self
 
 ## Naming Conventions
 
-File names for initial zero data for each modular form have the prefix "lowly_zero" in the name (e.g., "lowly_zeros_mf5w8aa.txt").
+In general, file names for data start with the LMFDB label, followed by "_zero" (e.g., "mf5w8aa_zeros.txt").
 
-File names for filtered zero data for modular forms have the prefix "fz" and the suffix "sign+1" or "sign-1" (e.g., 
-"fz_mf5w8aa_sign+1.txt").
+File names for filtered zero data for modular forms have the suffix "sign+1" or "sign-1" (e.g., 
+"mf5w8aa_zeros_sign+1.txt").
 
-For images, the label "fz" in the file name indicates filtered zeroes; such figures will also have the sign in the name. Otherwise, the file name will have "lowly_zeros" in it, indicating the data is not filtered by sign. A capital "N" before the first underscore "_" in the file name indicates the data is normalized to have mean 1. An "e" before the first underscore indicates the data is excised. A lowercase "nv" before the first underscore indicates only non-vanishing zeros are plotted.
+Files names for only the closest non-vanishing zero have the suffix "_c" (e.g., "mf11w2aa_zeros_c.txt"); this option can also be combined with filtered zeros.
+
+For images, the start of the file will always indicate the data used in the plot. Next, the type of matrix group data used will be included. Finally, the suffixes indicate what type of modifications were done to the data. Specifically, a capital "N" after the last underscore "_" in the file name indicates the data is normalized to have mean 1. An "e" after indicates the data is excised. A lowercase "nv" after indicates only non-vanishing zeros are plotted. For example, "mf7w4aa_zeros_sign+1_c_SO20_Nenv.png" plots the closest non-vanishing zero with sign +1 of the family mf7w4aa, with data normalized to 1, the matrix data excised, and only non-vanishing zeros plotted.

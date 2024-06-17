@@ -60,6 +60,7 @@ def plot_data(mf_data: str, mat_type: str, non_vanishing: bool=True, normalize: 
         save (bool); If True, save the figure.
     
     Outputs:
+        The graph specified; the file name will follow the README conventions.
         bool: True if function completed successfully, otherwise None
     """
     
@@ -105,7 +106,7 @@ def plot_data(mf_data: str, mat_type: str, non_vanishing: bool=True, normalize: 
             nv_string = "nv"
         else:
             nv_string = ""
-        plt.savefig(f'{images_path}/{n_string}{e_string}{nv_string}{mf_data}_{mat_type}{2*N_std + odd}.png')
+        plt.savefig(f'{images_path}/{mf_data}_{mat_type}{2*N_std + odd}_{n_string}{e_string}{nv_string}.png')
     plt.show()
 
 

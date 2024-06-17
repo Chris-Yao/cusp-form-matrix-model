@@ -19,51 +19,60 @@ pari = Pari()
 
 data_path = "data/mf"
 
-# # Taken from plotting.py -- for some reason Sage does not like packages imported there...
-# def get_level(mf_name: str) -> int:
-#     """
-#     Takes in a string containing the LMFDB classifier and outputs the level
 
-#     Input: 
-#         mf_name (str): LMFDB classifier of the modular form
-
-#     Output: 
-#         level (int): level of the modular form
-#     """
-
-#     expr = re.search(r"mf(\d*)w(\d*)(..)", mf_name)
-#     return int(expr.group(1))
-
-def filter_discriminants(funct_eqn_sign: int, mf_name: str, sign: int) -> bool:
+def filter_discriminants(funct_eqn_sign: int, mf_name: str, sign: int=0, lowest_nv: bool=False) -> bool:
     """
-    Filters lowest lying zeros data by depending on (even or odd) sign.
+    Filters lowest lying zeros data by (even or odd) sign and/or lowest non-vanishing zeros.
 
     Inputs:
         funct_eqn_sign (int): Sign of the functional equation. Either +1 or -1. \
             This may or may not exist; if it doesn't, setting it equal to 1 will work.
         mf_name (str): LMFDB classifier of the modular form
-        sign (int): Sign (or delta value) of the kronecker symbol to filter by. Either +1 or -1.
+        sign (int): Sign (or delta value) of the kronecker symbol to filter by. Either +1 or -1, \
+            or 0 to include all zeros.
+        lowest_nv (bool): If True, finds the lowest non-zero root (if it exists) for each \
+            discriminant. If False, any discriminant whose lowest zero is 0 is just thrown \
+            out entirely and the data is ignored for this discriminant.
     
     Outputs: 
-        {filter_label}_{mf_name}_sign{sign}.txt: a text file of fundamental discriminants and \
-            zeros only including the discriminants desired.
+        A text file of fundamental discriminants and zeros only including the discriminants \
+            desired. If sign is specified, the file name will have "sign+1" or "sign-1". \
+            If lowest_nv, a "c" will be appended to the file name. See README for details.
         bool: True if function completed successfully, otherwise None
     """
 
-    with open(f'{data_path}/lowly_zeros_{mf_name}.txt', 'r') as fundisc:
+    with open(f'{data_path}/{mf_name}_zeros.txt', 'r') as fundisc:
         funlist = fundisc.readlines()
+
+    zeros = funlist
+    if lowest_nv:
+        lowest_string = "_c"
+        zeros = []
+        for d in funlist:
+            for zero in d.split(",")[1:]:
+                zero = float(zero)
+                if zero != 0:
+                    zeros.append(f'{d.split(",")[0]},{zero}\n')
+                    break
+    else:
+        lowest_string = ""
+
+    if sign == 0:
+        with open(f'{data_path}/{mf_name}_zeros{lowest_string}.txt', 'w') as fp:
+            fp.write(''.join(zeros))
+        return True
 
     N = get_level(mf_name)
 
     discriminants = []
-    for d in funlist:
+    for d in zeros:
         if pari.kronecker(N, int(d.split(',')[0]))*funct_eqn_sign == sign:
             discriminants.append(d)
     if sign == 1:
         sign_str = "+1"
     else:
         sign_str = str(sign)
-    with open(f'{data_path}/fz_{mf_name}_sign{sign_str}.txt', 'w') as fp:
+    with open(f'{data_path}/{mf_name}_zeros_sign{sign_str}{lowest_string}.txt', 'w') as fp:
         fp.write(''.join(discriminants))
     
     return True

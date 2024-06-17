@@ -20,7 +20,7 @@ from math import pi, log
 if __name__ == "__main__":
     raw_path = r"C:\Users\Chris.CHRIS-SPECTRE\Documents"
     data_path = r"data/rmt"
-    data_type = "Random_SO19_Data"
+    data_type = "Random_SO17_Data"
 
     all_df = []
 

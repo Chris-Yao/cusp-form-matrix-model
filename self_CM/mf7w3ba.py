@@ -11,9 +11,9 @@ mf_name = "mf7w3ba"
 mat_type = "USp"
 
 
-def find_zeroes():
+def find_zeroes(starting_val=1):
     print(f"Calculating zeroes for {mf_name}")
-    if (compute_zeros([7,3,pari.Mod(6,7)], mf_name)):
+    if (compute_zeros([7,3,pari.Mod(6,7)], mf_name, starting_val)):
         print("Zeroes found successfully.")
 
 # Chi Non-principal, f = f bar
@@ -28,7 +28,7 @@ def filter_delta_plus():
         print("Filtered data successfully.")
 
 def plot_even():
-    plot_data(f"fz_{mf_name}_sign+1", mat_type, graph_limits=[-0.05, 4], save=True)
+    plot_data(f"{mf_name}_zeros_sign+1", mat_type, graph_limits=[-0.05, 4], save=True)
 
 def plot_odd():
-    plot_data(f"fz_{mf_name}_sign-1", mat_type, graph_limits=[-0.05, 4], save=True)
+    plot_data(f"{mf_name}_zeros_sign-1", mat_type, graph_limits=[-0.05, 4], save=True)
