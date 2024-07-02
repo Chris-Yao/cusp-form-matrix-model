@@ -13,7 +13,8 @@ import self_CM.mf3w7ba
 import self_CM.mf7w3ba
 
 if __name__ == "__main__":
-    # principal.mf11w2aa.find_zeroes(4242)
+    # principal.mf11w2aa.find_zeroes(4250)
+    # principal.mf11w2aa.get_order()
     # principal.mf5w4aa.find_zeroes()
     # principal.mf5w8aa.find_zeroes() 
     # principal.mf7w4aa.find_zeroes()
@@ -24,19 +25,19 @@ if __name__ == "__main__":
     # generic.mf7w4ca.find_zeroes()
     # generic.mf17w2da.find_zeroes()
     
-    # principal.mf11w2aa.filter_even()
-    # principal.mf11w2aa.filter_odd()
-    # principal.mf11w2aa.filter_lowest()
-    # principal.mf11w2aa.filter_lowest_even()
-    # principal.mf11w2aa.filter_lowest_odd()
+    principal.mf11w2aa.filter_even()
+    principal.mf11w2aa.filter_odd()
+    principal.mf11w2aa.filter_lowest()
+    principal.mf11w2aa.filter_lowest_even()
+    principal.mf11w2aa.filter_lowest_odd()
     # principal.mf5w4aa.filter_odd()
     # principal.mf5w4aa.filter_even()
     # principal.mf5w8aa.filter_odd()
     # principal.mf5w8aa.filter_even()
     # principal.mf7w4aa.filter_even()
     # principal.mf7w4aa.filter_odd()
-    principal.mf7w4aa.filter_lowest_odd()
-    principal.mf7w4aa.filter_lowest_even()
+    # principal.mf7w4aa.filter_lowest_odd()
+    # principal.mf7w4aa.filter_lowest_even()
     # self_CM.mf3w7ba.filter_delta_minus()
     # self_CM.mf3w7ba.filter_delta_plus()
     # self_CM.mf7w3ba.filter_delta_plus()
@@ -47,14 +48,14 @@ if __name__ == "__main__":
 
     # principal.mf7w4aa.plot_even()
     # principal.mf7w4aa.plot_odd()
-    principal.mf7w4aa.plot_even_lowest()
-    principal.mf7w4aa.plot_odd_lowest()
+    # principal.mf7w4aa.plot_even_lowest()
+    # principal.mf7w4aa.plot_odd_lowest()
     # principal.mf5w4aa.plot_even()
     # principal.mf5w4aa.plot_odd()
     # principal.mf5w8aa.plot_even()
     # principal.mf5w8aa.plot_odd()
-    # principal.mf11w2aa.plot_even()
-    # principal.mf11w2aa.plot_odd()
+    principal.mf11w2aa.plot_even()
+    principal.mf11w2aa.plot_odd()
     principal.mf11w2aa.plot_even_lowest()
     principal.mf11w2aa.plot_odd_lowest()
     # self_CM.mf3w7ba.plot_even()
@@ -68,6 +69,8 @@ if __name__ == "__main__":
     # generic.mf11w7bb.plot()
     # generic.mf7w4ca.plot()
     # generic.mf17w2da.plot()
+
+    
 
     
 

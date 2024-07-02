@@ -1,4 +1,4 @@
-from compute_mf_zeroes import compute_zeros
+from compute_mf_zeroes import compute_zeros, order_at_zero
 from filter_discriminants import filter_discriminants
 from cypari2 import Pari
 from plotting import plot_data
@@ -11,6 +11,9 @@ def find_zeroes(starting_val=1):
     print(f"Calculating zeroes for {mf_name}")
     if (compute_zeros([11,2,pari.Mod(1,11)], mf_name, starting_val)):
         print("Zeroes found successfully.")
+
+def get_order(starting_val=1):
+    order_at_zero([11,2,pari.Mod(1,11)], mf_name, starting_val)
 
 def filter_odd():
     print(f"Filtering odd discriminants for {mf_name}")

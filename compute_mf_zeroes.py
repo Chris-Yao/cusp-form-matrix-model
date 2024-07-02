@@ -72,6 +72,38 @@ def compute_zeros(mf_data: list, mf_name: str, starting_val: int=1) -> bool:
     return True
 
 
+def order_at_zero(mf_data: list, mf_name: str, starting_val: int=1) -> bool:
+    """
+    Finds the order of 0 for quadratic twists of L-functions. Unused
 
+    Inputs:
+        mf_data (list of length 3): containing the following modular form data
+            N (int): level of the modular form
+            k (int): weight of the modular form
+            chi (Mod): a character
+        mf_name (str): LMFDB (or other) classifier of the modular form
+        starting_val (int): value of discriminant to start counting at; i.e., only compute \
+            zeros for discriminants at least starting_val. Default is 1 (compute all \
+            discriminants)
+    
+    Outputs:
+        {mf_name}_order.txt: a text file with the first column as the fundamental \
+            discriminant followed by the order of 0
+        bool: True if function completed successfully, otherwise None
+    """
 
+    [N,k,chi] = mf_data
+    mf = pari.mfinit(mf_data,0)
+    b = pari.mfeigenbasis(mf)[0] 
+    l = pari.lfunmf(mf,b) 
+
+    discs_to_compute = [int(d) for d in funddiscs if int(d) >= starting_val]
+
+    for disc in discs_to_compute:
+        if disc % N != 0 and disc > 1:
+            twist = pari.lfuntwist(l,disc)
+            with open(f'{mf_data_path}/{mf_name}_order.txt','a') as f:
+                f.write(f"{disc},{pari.lfunorderzero(twist)}\n")
+            
+    return True
 
