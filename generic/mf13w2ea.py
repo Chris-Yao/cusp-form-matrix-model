@@ -23,13 +23,13 @@ def filter_even():
         print("Filtered data successfully.")
 
 def plot_even():
-    plot_data(f"{mf_name}_zeros_sign+1", mat_type, graph_limits=[-0.05, 4], save=True, cutoff=1/16)
+    plot_data(f"{mf_name}_zeros_sign+1", mat_type, graph_limits=[-0.05, 4], save=True, cutoff=1/16, double_N=False)
 
 def plot_odd():
-    plot_data(f"{mf_name}_zeros_sign-1", mat_type, graph_limits=[-0.05, 4], save=True, cutoff=1/16)
+    plot_data(f"{mf_name}_zeros_sign-1", mat_type, graph_limits=[-0.05, 4], save=True, cutoff=1/16, double_N=False)
 
 def plot_all_U():
-    plot_data(f"{mf_name}_zeros", mat_type, graph_limits=[-0.05, 4], save=True, cutoff=1/16)
+    plot_data(f"{mf_name}_zeros", mat_type, graph_limits=[-0.05, 4], save=True, cutoff=1/16, double_N=False)
 
 def plot_all_SO():
     plot_data(f"{mf_name}_zeros", mat_type="SO", graph_limits=[-0.05, 4], save=True, cutoff=1/64)

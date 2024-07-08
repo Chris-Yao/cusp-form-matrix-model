@@ -14,4 +14,4 @@ def find_zeroes(starting_val=1):
 
 
 def plot():
-    plot_data(f"{mf_name}_zeros", mat_type, graph_limits=[-0.05, 4], save=True, odd=True)
+    plot_data(f"{mf_name}_zeros", mat_type, graph_limits=[-0.05, 4], save=True, double_N=False)

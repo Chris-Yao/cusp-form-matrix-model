@@ -35,8 +35,8 @@ def get_level(mf_name: str) -> int:
     return int(expr.group(1))
 
 def plot_data(mf_data: str, mat_type: str, non_vanishing: bool=True, normalize: bool=True, 
-              cutoff: float=0, odd: bool=False, graph_limits: list=[], which_zero: int=1,
-              save: bool=False) -> bool:
+              cutoff: float=0, odd: bool=False, double_N: bool=True, graph_limits: list=[], 
+              which_zero: int=1, save: bool=False) -> bool:
     """
     Plots modular form and eigenvalue data 
 
@@ -55,6 +55,7 @@ def plot_data(mf_data: str, mat_type: str, non_vanishing: bool=True, normalize: 
         cutoff (float): cutoff value to excise matrices based on characteristic \
             polynomial evaluated at 1. If 0, do not cutoff.
         odd (bool): If True, force the matrix size to be odd (this is normally for SO case).
+        double_N (bool): If True, the matrix size is 2N; otherwise, it is just N.
         graph_limits (list): The x limits on the graph; if empty, no limits.
         which_zero (int): Which zero to plot; e.g., if 1, the lowest zero, if 2, the second lowest.
         save (bool); If True, save the figure.
@@ -74,8 +75,9 @@ def plot_data(mf_data: str, mat_type: str, non_vanishing: bool=True, normalize: 
         
     lvl = get_level(mf_data)
     N_std = round(log(X*lvl**(0.5)/(2 *pi)))
+    mat_size = (1 + double_N) * N_std + odd
 
-    matrix_data = pd.read_csv(f"{rmt_path}/Random_{mat_type}{2*N_std + odd}_Data.csv")
+    matrix_data = pd.read_csv(f"{rmt_path}/Random_{mat_type}{mat_size}_Data.csv")
     e_string = ""
     if cutoff != 0:
         excised_matrix_data = matrix_data[matrix_data["charpoly"] > cutoff]
@@ -106,7 +108,7 @@ def plot_data(mf_data: str, mat_type: str, non_vanishing: bool=True, normalize: 
             nv_string = "nv"
         else:
             nv_string = ""
-        plt.savefig(f'{images_path}/{mf_data}_{mat_type}{2*N_std + odd}_{n_string}{e_string}{nv_string}.png')
+        plt.savefig(f'{images_path}/{mf_data}_{mat_type}{mat_size}_{n_string}{e_string}{nv_string}.png')
     plt.show()
 
 
