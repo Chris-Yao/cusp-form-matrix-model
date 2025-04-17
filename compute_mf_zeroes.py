@@ -24,7 +24,7 @@ fd_file = "1-20000_fd"
 with open(f"{fd_data_path}/{fd_file}.txt", "r") as f:
     funddiscs = f.readlines()
 
-num_roots = 3
+num_roots = 3 #theoretically could have a higher number, but this takes more time; 3 seems to be the sweet spot between finding a non-zero root and time efficiency. See below.
 
 def compute_zeros(mf_data: list, mf_name: str, starting_val: int=1) -> bool:
     """
@@ -59,7 +59,7 @@ def compute_zeros(mf_data: list, mf_name: str, starting_val: int=1) -> bool:
         if disc % N != 0 and disc > 1:
             twist = pari.lfuntwist(l,disc) #twist l by dirichlet character disc
             all_roots = list(pari.lfunzeros(twist, [height, height + step]))  #zeros of twisted lfunction in an interval
-            while len(all_roots) < num_roots:
+            while len(all_roots) < num_roots: #finds num_roots roots; we need more than 1 because sometimes 0 is a root and we sometimes want the first non-zero root. 
                 height += step
                 all_roots.extend(pari.lfunzeros(twist, [height, height + step]))
         
